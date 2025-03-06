@@ -23,6 +23,7 @@ limitations under the License.
         <V.com.braintribe.testing>[2.0,2.1)</V.com.braintribe.testing>
         <V.com.braintribe.common>[2.0,2.1)</V.com.braintribe.common>
         <V.com.braintribe.wire>[2.0,2.1)</V.com.braintribe.wire>
+        <V.com.h2database>2.2.224</V.com.h2database>
         <V.com.microsoft.playwright>1.28.1</V.com.microsoft.playwright>
         <V.com.microsoft.sqlserver>8.2.2.jre8</V.com.microsoft.sqlserver>
         <V.com.oracle.ojdbc>19.3.0.0</V.com.oracle.ojdbc>

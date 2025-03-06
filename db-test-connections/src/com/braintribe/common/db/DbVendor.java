@@ -27,6 +27,7 @@ public enum DbVendor {
 	// in alphabetical order
 
 	derby,
+	h2,
 	mssql,
 	mysql,
 	oracle,

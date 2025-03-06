@@ -36,6 +36,8 @@ public class DbTestDataSourcesSpace implements DbTestDataSourcesContract, DbTest
 		switch (dbVendor) {
 			case derby:
 				return derby();
+			case h2:
+				return h2();
 			case mssql:
 				return mssql();
 			case mysql:
@@ -54,7 +56,7 @@ public class DbTestDataSourcesSpace implements DbTestDataSourcesContract, DbTest
 	public DataSource derby() {
 		HikariDataSource bean = newHikariDataSource();
 
-		bean.setDriverClassName(derbyDriver);
+		bean.setDriverClassName(derbyDriverSupplier.get());
 		bean.setJdbcUrl(derbyUrl);
 
 		currentInstance().onDestroy(bean::close);
@@ -66,10 +68,25 @@ public class DbTestDataSourcesSpace implements DbTestDataSourcesContract, DbTest
 
 	@Override
 	@Managed
+	public DataSource h2() {
+		HikariDataSource bean = newHikariDataSource();
+
+		bean.setDriverClassName(h2DriverSupplier.get());
+		bean.setJdbcUrl(h2Url);
+
+		currentInstance().onDestroy(bean::close);
+
+		validate(bean, "h2");
+
+		return bean;
+	}
+
+	@Override
+	@Managed
 	public DataSource mssql() {
 		HikariDataSource bean = newHikariDataSource();
 
-		bean.setDriverClassName(mssqlDriver);
+		bean.setDriverClassName(mssqlDriverSupplier.get());
 		bean.setJdbcUrl(mssqlUrl);
 
 		currentInstance().onDestroy(bean::close);
@@ -84,7 +101,7 @@ public class DbTestDataSourcesSpace implements DbTestDataSourcesContract, DbTest
 	public DataSource mySql() {
 		HikariDataSource bean = newHikariDataSource();
 
-		bean.setDriverClassName(mysqlDriver);
+		bean.setDriverClassName(mysqlDriverSupplier.get());
 		bean.setJdbcUrl(mysqlUrl);
 
 		currentInstance().onDestroy(bean::close);
@@ -99,7 +116,7 @@ public class DbTestDataSourcesSpace implements DbTestDataSourcesContract, DbTest
 	public DataSource oracle() {
 		HikariDataSource bean = newHikariDataSource();
 
-		bean.setDriverClassName(oracleDriver);
+		bean.setDriverClassName(oracleDriverSupplier.get());
 		bean.setJdbcUrl(oracleUrl);
 
 		currentInstance().onDestroy(bean::close);
@@ -114,7 +131,7 @@ public class DbTestDataSourcesSpace implements DbTestDataSourcesContract, DbTest
 	public DataSource postgres() {
 		HikariDataSource bean = newHikariDataSource();
 
-		bean.setDriverClassName(postgresDriver);
+		bean.setDriverClassName(postgresDriverSupplier.get());
 		bean.setJdbcUrl(postgresUrl);
 
 		currentInstance().onDestroy(bean::close);

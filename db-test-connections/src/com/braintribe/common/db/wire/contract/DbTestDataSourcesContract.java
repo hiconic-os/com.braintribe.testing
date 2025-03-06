@@ -29,6 +29,8 @@ public interface DbTestDataSourcesContract extends WireSpace {
 
 	DataSource derby();
 
+	DataSource h2();
+
 	DataSource mssql();
 
 	DataSource mySql();

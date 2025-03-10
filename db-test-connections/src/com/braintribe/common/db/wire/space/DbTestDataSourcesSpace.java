@@ -15,10 +15,13 @@
 // ============================================================================
 package com.braintribe.common.db.wire.space;
 
+import static com.braintribe.common.db.DbTestDataSources.newDerby;
+import static com.braintribe.common.db.DbTestDataSources.newH2;
+import static com.braintribe.common.db.DbTestDataSources.newMssql;
+import static com.braintribe.common.db.DbTestDataSources.newMySql;
+import static com.braintribe.common.db.DbTestDataSources.newOracle;
+import static com.braintribe.common.db.DbTestDataSources.newPostgres;
 import static com.braintribe.wire.api.scope.InstanceConfiguration.currentInstance;
-
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
@@ -54,113 +57,48 @@ public class DbTestDataSourcesSpace implements DbTestDataSourcesContract, DbTest
 	@Override
 	@Managed
 	public DataSource derby() {
-		HikariDataSource bean = newHikariDataSource();
-
-		bean.setDriverClassName(derbyDriverSupplier.get());
-		bean.setJdbcUrl(derbyUrl);
-
+		HikariDataSource bean = newDerby();
 		currentInstance().onDestroy(bean::close);
-
-		validate(bean, "derby");
-
 		return bean;
 	}
 
 	@Override
 	@Managed
 	public DataSource h2() {
-		HikariDataSource bean = newHikariDataSource();
-
-		bean.setDriverClassName(h2DriverSupplier.get());
-		bean.setJdbcUrl(h2Url);
-
+		HikariDataSource bean = newH2();
 		currentInstance().onDestroy(bean::close);
-
-		validate(bean, "h2");
-
 		return bean;
 	}
 
 	@Override
 	@Managed
 	public DataSource mssql() {
-		HikariDataSource bean = newHikariDataSource();
-
-		bean.setDriverClassName(mssqlDriverSupplier.get());
-		bean.setJdbcUrl(mssqlUrl);
-
+		HikariDataSource bean = newMssql();
 		currentInstance().onDestroy(bean::close);
-
-		validate(bean, "mssql");
-
 		return bean;
 	}
 
 	@Override
 	@Managed
 	public DataSource mySql() {
-		HikariDataSource bean = newHikariDataSource();
-
-		bean.setDriverClassName(mysqlDriverSupplier.get());
-		bean.setJdbcUrl(mysqlUrl);
-
+		HikariDataSource bean = newMySql();
 		currentInstance().onDestroy(bean::close);
-
-		validate(bean, "mySql");
-
 		return bean;
 	}
 
 	@Override
 	@Managed
 	public DataSource oracle() {
-		HikariDataSource bean = newHikariDataSource();
-
-		bean.setDriverClassName(oracleDriverSupplier.get());
-		bean.setJdbcUrl(oracleUrl);
-
+		HikariDataSource bean = newOracle();
 		currentInstance().onDestroy(bean::close);
-
-		validate(bean, "oracle");
-
 		return bean;
 	}
 
 	@Override
 	@Managed
 	public DataSource postgres() {
-		HikariDataSource bean = newHikariDataSource();
-
-		bean.setDriverClassName(postgresDriverSupplier.get());
-		bean.setJdbcUrl(postgresUrl);
-
+		HikariDataSource bean = newPostgres();
 		currentInstance().onDestroy(bean::close);
-
-		validate(bean, "postgres");
-
-		return bean;
-	}
-
-	private HikariDataSource newHikariDataSource() {
-		HikariDataSource bean = new HikariDataSource();
-		bean.setUsername(dbTestUsername);
-		bean.setPassword(dbTestPassword);
-
-		bean.setConnectionTimeout(10_000L);
-		bean.setMaximumPoolSize(10); // small number for tests
-
-		return bean;
-	}
-
-	private HikariDataSource validate(HikariDataSource bean, String vendorName) {
-		try (Connection c = bean.getConnection()) {
-			c.toString();
-
-		} catch (SQLException e) {
-			throw new RuntimeException("Could not connect to " + vendorName + ". Make sure the corresponding docker container is running."
-					+ " Scripts for running the container is in github repository called 'docker-databases'.", e);
-		}
-
 		return bean;
 	}
 

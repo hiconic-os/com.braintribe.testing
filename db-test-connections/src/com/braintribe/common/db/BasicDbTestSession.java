@@ -15,58 +15,33 @@
 // ============================================================================
 package com.braintribe.common.db;
 
-import java.io.File;
-
-import javax.sql.DataSource;
-
 import com.braintribe.common.db.wire.DbTestConnectionsWireModule;
 import com.braintribe.common.db.wire.contract.DbTestDataSourcesContract;
-import com.braintribe.utils.FileTools;
 import com.braintribe.wire.api.Wire;
 import com.braintribe.wire.api.context.WireContext;
 
 /**
- * Represents an access point to the {@link DbTestDataSourcesContract}, i.e. the contract which provides the {@link DataSource} instances for all the
- * supported {@link DbVendor vendors}.
- * <p>
- * Typically this test-session is acquired via {@link #startDbTest()}, and stored in a static field. It is then cleaned-up via
- * {@link #shutdownDbTest()}.
- * <p>
- * For an example see <tt>AbstractGmDbTestBase</tt> in <tt>jdbc-gm-support-test</tt> artifact.
+ * Similar to {@link DerbySupportingDbTestSession}, but doesn't support Derby.
  *
  * @author peter.gazdik
  */
-public class SimpleDbTestSession {
+public class BasicDbTestSession {
 
 	public WireContext<DbTestDataSourcesContract> context;
 	public DbTestDataSourcesContract contract;
 
-	private SimpleDbTestSession() {
-		DbTestSupport.startDerby();
+	private BasicDbTestSession() {
 		context = Wire.context(DbTestConnectionsWireModule.INSTANCE);
 		contract = context.contract();
 	}
 
-	public static SimpleDbTestSession startDbTest() {
-		deleteResFolderWithDerbyData();
-
-		return new SimpleDbTestSession();
+	public static BasicDbTestSession startDbTest() {
+		return new BasicDbTestSession();
 	}
 
-	/** @see DbTestConstants#derbyUrl */
-	private static void deleteResFolderWithDerbyData() {
-		File res = new File("res/db/dbtest");
-		if (res.exists()) {
-			FileTools.deleteDirectoryRecursivelyUnchecked(res);
-		}
-	}
-
-	public void shutdownDbTest() throws Exception {
-		if (context != null) {
+	public void shutdownDbTest() {
+		if (context != null) 
 			context.shutdown();
-		}
-
-		DbTestSupport.shutdownDerby();
 	}
 
 }

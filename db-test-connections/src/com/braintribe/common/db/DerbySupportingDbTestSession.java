@@ -17,8 +17,6 @@ package com.braintribe.common.db;
 
 import java.io.File;
 
-import javax.sql.DataSource;
-
 import com.braintribe.common.db.wire.DbTestConnectionsWireModule;
 import com.braintribe.common.db.wire.contract.DbTestDataSourcesContract;
 import com.braintribe.utils.FileTools;
@@ -26,13 +24,11 @@ import com.braintribe.wire.api.Wire;
 import com.braintribe.wire.api.context.WireContext;
 
 /**
- * Represents an access point to the {@link DbTestDataSourcesContract}, i.e. the contract which provides the {@link DataSource} instances for all the
- * supported {@link DbVendor vendors}.
+ * Similar to {@link BasicDbTestSession}, but also supports Derby.
  * <p>
- * Typically this test-session is acquired via {@link #startDbTest()}, and stored in a static field. It is then cleaned-up via
- * {@link #shutdownDbTest()}.
+ * Not recommended, as this runs a Derby server locally which is unnecessarily complicated.
  * <p>
- * For an example see <tt>AbstractGmDbTestBase</tt> in <tt>jdbc-gm-support-test</tt> artifact.
+ * Use H2 instead for local testing.
  *
  * @author peter.gazdik
  */

@@ -15,13 +15,25 @@
 // ============================================================================
 package com.braintribe.common.db;
 
+import javax.sql.DataSource;
+
 import com.braintribe.common.db.wire.DbTestConnectionsWireModule;
 import com.braintribe.common.db.wire.contract.DbTestDataSourcesContract;
 import com.braintribe.wire.api.Wire;
 import com.braintribe.wire.api.context.WireContext;
 
 /**
- * Similar to {@link DerbySupportingDbTestSession}, but doesn't support Derby.
+ * Access point to the {@link DbTestDataSourcesContract} which provides {@link DataSource DataSources} for all the supported {@link DbVendor vendors}
+ * (except Derby).
+ * <p>
+ * For local it is recommended to use H2, cause it works out of the box.
+ * <p>
+ * To test DBs like Postgres, one can use Docker scripts in the docker-databases repository, which start containers with proper configuration.
+ * <p>
+ * Typically this test-session is acquired via {@link #startDbTest()}, and stored in a static field. It is then cleaned-up via
+ * {@link #shutdownDbTest()}.
+ * <p>
+ * For an example see <tt>AbstractGmDbTestBase</tt> in <tt>jdbc-gm-support-test</tt> artifact (GM group).
  *
  * @author peter.gazdik
  */
@@ -40,7 +52,7 @@ public class BasicDbTestSession {
 	}
 
 	public void shutdownDbTest() {
-		if (context != null) 
+		if (context != null)
 			context.shutdown();
 	}
 

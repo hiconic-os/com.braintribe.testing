@@ -17,13 +17,13 @@ public class DbTestDataSources implements DbTestConstants {
 			case h2:
 				return newH2();
 			case mssql:
-				return newMssql();
+				return newMssql(mssqlDefaultPort);
 			case mysql:
-				return newMySql();
+				return newMySql(mySqlDefaultPort);
 			case oracle:
-				return newOracle();
+				return newOracle(oracleDefaultPort);
 			case postgres:
-				return newPostgres();
+				return newPostgres(postgresDefaultPort);
 			default:
 				throw new IllegalArgumentException("Unknown db vendor: " + dbVendor);
 		}
@@ -40,7 +40,6 @@ public class DbTestDataSources implements DbTestConstants {
 		return bean;
 	}
 
-
 	public static HikariDataSource newH2() {
 		HikariDataSource bean = newHikariDataSource();
 
@@ -52,49 +51,44 @@ public class DbTestDataSources implements DbTestConstants {
 		return bean;
 	}
 
-
-	public static HikariDataSource newMssql() {
+	public static HikariDataSource newMssql(int port) {
 		HikariDataSource bean = newHikariDataSource();
 
 		bean.setDriverClassName(mssqlDriverSupplier.get());
-		bean.setJdbcUrl(mssqlUrl);
+		bean.setJdbcUrl(mssqlUrl.replace("${PORT}", "" + port));
 
 		validate(bean, "mssql");
 
 		return bean;
 	}
 
-	
-
-	public static HikariDataSource newMySql() {
+	public static HikariDataSource newMySql(int port) {
 		HikariDataSource bean = newHikariDataSource();
 
 		bean.setDriverClassName(mysqlDriverSupplier.get());
-		bean.setJdbcUrl(mysqlUrl);
+		bean.setJdbcUrl(mysqlUrl.replace("${PORT}", "" + port));
 
 		validate(bean, "mySql");
 
 		return bean;
 	}
 
-
-	public static HikariDataSource newOracle() {
+	public static HikariDataSource newOracle(int port) {
 		HikariDataSource bean = newHikariDataSource();
 
 		bean.setDriverClassName(oracleDriverSupplier.get());
-		bean.setJdbcUrl(oracleUrl);
+		bean.setJdbcUrl(oracleUrl.replace("${PORT}", "" + port));
 
 		validate(bean, "oracle");
 
 		return bean;
 	}
 
-	
-	public static HikariDataSource newPostgres() {
+	public static HikariDataSource newPostgres(int port) {
 		HikariDataSource bean = newHikariDataSource();
 
 		bean.setDriverClassName(postgresDriverSupplier.get());
-		bean.setJdbcUrl(postgresUrl);
+		bean.setJdbcUrl(postgresUrl.replace("${PORT}", "" + port));
 
 		validate(bean, "postgres");
 
@@ -123,6 +117,5 @@ public class DbTestDataSources implements DbTestConstants {
 
 		return bean;
 	}
-
 
 }

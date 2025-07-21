@@ -72,32 +72,32 @@ public class DbTestDataSourcesSpace implements DbTestDataSourcesContract, DbTest
 
 	@Override
 	@Managed
-	public DataSource mssql() {
-		HikariDataSource bean = newMssql();
+	public DataSource mssql(Integer port) {
+		HikariDataSource bean = newMssql(port);
 		currentInstance().onDestroy(bean::close);
 		return bean;
 	}
 
 	@Override
 	@Managed
-	public DataSource mySql() {
-		HikariDataSource bean = newMySql();
+	public DataSource mySql(Integer port) {
+		HikariDataSource bean = newMySql(port);
 		currentInstance().onDestroy(bean::close);
 		return bean;
 	}
 
 	@Override
 	@Managed
-	public DataSource oracle() {
-		HikariDataSource bean = newOracle();
+	public DataSource oracle(Integer port) {
+		HikariDataSource bean = newOracle(port);
 		currentInstance().onDestroy(bean::close);
 		return bean;
 	}
 
 	@Override
 	@Managed
-	public DataSource postgres() {
-		HikariDataSource bean = newPostgres();
+	public DataSource postgres(Integer port) {
+		HikariDataSource bean = newPostgres(port);
 		currentInstance().onDestroy(bean::close);
 		return bean;
 	}

@@ -34,19 +34,23 @@ public interface DbTestConstants {
 	String h2Driver = "org.h2.Driver";
 	Supplier<String> h2DriverSupplier = () -> org.h2.Driver.class.getName();
 
-	String mssqlUrl = "jdbc:sqlserver://localhost:51433;databaseName=dbtest";
+	int mssqlDefaultPort = 51433;
+	String mssqlUrl = "jdbc:sqlserver://localhost:${PORT};databaseName=dbtest";
 	String mssqlDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	Supplier<String> mssqlDriverSupplier = () -> com.microsoft.sqlserver.jdbc.SQLServerDriver.class.getName();
 
-	String mysqlUrl = "jdbc:mysql://localhost:53306/dbtest";
+	int mySqlDefaultPort = 53306;
+	String mysqlUrl = "jdbc:mysql://localhost:${PORT}/dbtest";
 	String mysqlDriver = "com.mysql.jdbc.Driver";
 	Supplier<String> mysqlDriverSupplier = () -> com.mysql.jdbc.Driver.class.getName();
 
-	String oracleUrl = "jdbc:oracle:thin:@localhost:51521/xe";
+	int oracleDefaultPort = 51521;
+	String oracleUrl = "jdbc:oracle:thin:@localhost:${PORT}/xe";
 	String oracleDriver = "oracle.jdbc.pool.OracleDataSource";
 	Supplier<String> oracleDriverSupplier = () -> oracle.jdbc.pool.OracleDataSource.class.getName();
 
-	String postgresUrl = "jdbc:postgresql://localhost:55432/dbtest";
+	int postgresDefaultPort = 55432;
+	String postgresUrl = "jdbc:postgresql://localhost:${PORT}/dbtest";
 	String postgresDriver = "org.postgresql.Driver";
 	Supplier<String> postgresDriverSupplier = () -> org.postgresql.Driver.class.getName();
 

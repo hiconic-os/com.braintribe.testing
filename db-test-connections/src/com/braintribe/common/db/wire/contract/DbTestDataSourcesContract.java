@@ -18,6 +18,7 @@ package com.braintribe.common.db.wire.contract;
 import javax.sql.DataSource;
 
 import com.braintribe.common.db.BasicDbTestSession;
+import com.braintribe.common.db.DbTestConstants;
 import com.braintribe.common.db.DbVendor;
 import com.braintribe.common.db.DerbySupportingDbTestSession;
 import com.braintribe.wire.api.space.WireSpace;
@@ -35,24 +36,40 @@ public interface DbTestDataSourcesContract extends WireSpace {
 	DataSource h2();
 
 	/** More complicated, see docker-databases GH repo. */
-	DataSource mssql();
+	default DataSource mssql() {
+		return mssql(DbTestConstants.mssqlDefaultPort);
+	}
+
+	DataSource mssql(Integer port);
 
 	/**
 	 * <pre>
 	 * docker run --name hc-test-mysql --rm -d -p 53306:3306 -e MYSQL_DATABASE=dbtest -e MYSQL_USER=cortex -e MYSQL_PASSWORD=cortex -e MYSQL_ROOT_PASSWORD=cortex mysql:5
 	 * </pre>
 	 */
-	DataSource mySql();
+	default DataSource mySql() {
+		return mySql(DbTestConstants.mySqlDefaultPort);
+	}
+
+	DataSource mySql(Integer port);
 
 	/** More complicated, see docker-databases GH repo. */
-	DataSource oracle();
+	default DataSource oracle() {
+		return oracle(DbTestConstants.oracleDefaultPort);
+	}
+
+	DataSource oracle(Integer port);
 
 	/**
 	 * <pre>
 	 * docker run --name hc-test-postgres --rm -d -p 55432:5432 -e POSTGRES_DB=dbtest -e POSTGRES_USER=cortex -e POSTGRES_PASSWORD=cortex postgres:latest
 	 * </pre>
 	 */
-	DataSource postgres();
+	default DataSource postgres() {
+		return postgres(DbTestConstants.postgresDefaultPort);
+	}
+
+	DataSource postgres(Integer port);
 
 	// Not recommended
 
